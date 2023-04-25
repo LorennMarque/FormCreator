@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormJson</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container my-5">
+        <div class="row">
+            <h1>FormCreator.Json</h1>
+            <div class="col">
+                <div class="form-floating mb-4">
+                    <textarea class="form-control"  id="formTitle" name="formTitle" oninput="updateFormPreview()" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                    <label for="formTitle">Título para el formulario</label>
+                  </div>
+                  <div class="form-floating mb-4">
+                    <textarea class="form-control"  id="formDesc" name="formDesc" oninput="updateFormPreview()" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                    <label for="formDesc">Descripcion para el formulario</label>
+                  </div>
+                  <div class="form-floating mb-4">
+                    <select class="form-select" id="inputType">
+                      <option value="text">Texto</option>
+                      <option value="email">Email</option>
+                      <option value="tel">Teléfono</option>
+                      <option value="number">Número</option>
+                      <option value="date">Fecha</option>
+                    </select>
+                    <label for="inputType">Tipo de entrada</label>
+                  </div>
+                  
+                  <button class="btn btn-success w-100" onclick="addQuestion()">Agregar pregunta +</button>
+                  <div id="questionContainer" class="my-3"></div>
+
+            </div>
+
+            <div class="col">
+                <div class="container p-5 bg-light shadow-sm">
+                    <h1 id="formTitlePreview"></h1>
+                    <p id="formDescPreview" class="lead"></p>
+                    <div id="questionContainerPreview"></div>
+              </div>
+            </div>
+        </div>
+        </div>
+
+    <script>
+function updateFormPreview() {
+  // Obtener el valor del título y descripción del formulario
+  var title = document.getElementById("formTitle").value;
+  var desc = document.getElementById("formDesc").value;
+
+  // Actualizar la vista previa del título y descripción del formulario
+  var previewTitle = document.getElementById("formTitlePreview");
+  var previewDesc = document.getElementById("formDescPreview");
+  previewTitle.innerText = title;
+  previewDesc.innerText = desc;
+
+  // Obtener el contenedor de preguntas de la vista previa
+  var questionContainerPreview = document.getElementById("questionContainerPreview");
+
+  // Eliminar las preguntas anteriores (si existen)
+  questionContainerPreview.innerHTML = "";
+
+  // Crear una nueva pregunta por cada campo de texto del formulario
+  var questionInputs = document.querySelectorAll("#questionContainer input");
+  questionInputs.forEach(function(input) {
+    var question = document.createElement("p");
+    question.innerText = input.value;
+
+    // Agregar la pregunta a la vista previa
+    questionContainerPreview.appendChild(question);
+  });
+}
+
+function addQuestion() {
+  // Obtener el valor seleccionado en el select
+  var inputType = document.getElementById("inputType").value;
+
+  // Crear un nuevo elemento input con el tipo seleccionado
+  let input = document.createElement("input");
+  input.type = inputType;
+  input.placeholder = "Escriba su pregunta aquí";
+  input.className = "form-control";
+  input.oninput = function() {
+    updateFormPreview();
+  };
+
+  // Obtener el elemento div donde se agregarán las preguntas
+  var questionContainer = document.getElementById("questionContainer");
+
+  // Verificar que el elemento existe antes de agregar el nuevo elemento input
+  if (questionContainer) {
+    questionContainer.appendChild(input);
+  } else {
+    console.error("Elemento 'questionContainer' no encontrado");
+  }
+}
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
