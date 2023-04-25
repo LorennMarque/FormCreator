@@ -1,0 +1,52 @@
+{
+  "title": "Formulario de Contacto",
+  "description": "Por favor, completa el siguiente formulario",
+  "color": "#0099ff",
+  "questions": [
+    {
+      "id": 1,
+      "title": "Nombre",
+      "description": "Por favor, ingresa tu nombre completo",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": 2,
+      "title": "Email",
+      "description": "Por favor, ingresa tu dirección de correo electrónico",
+      "type": "email",
+      "required": true
+    },
+    {
+      "id": 3,
+      "title": "¿Cómo te enteraste de nosotros?",
+      "description": "Selecciona una opción",
+      "type": "select",
+      "options": [
+        "Google",
+        "Redes sociales",
+        "Recomendación de un amigo",
+        "Otro"
+      ],
+      "required": false
+    },
+    {
+      "id": 4,
+      "title": "Comentarios",
+      "description": "Por favor, ingresa tus comentarios",
+      "type": "textarea",
+      "required": false
+    },
+    {
+      "id": 5,
+      "title": "¿Deseas recibir información adicional por correo electrónico?",
+      "description": "",
+      "type": "radio",
+      "options": [
+        "Sí",
+        "No"
+      ],
+      "required": false
+    }
+  ]
+}
