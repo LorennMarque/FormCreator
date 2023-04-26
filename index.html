@@ -14,37 +14,100 @@
                 <div class="form-floating mb-4">
                     <textarea class="form-control"  id="formTitle" name="formTitle" oninput="updateFormPreview()" placeholder="Leave a comment here" style="height: 100px"></textarea>
                     <label for="formTitle">Título para el formulario</label>
-                  </div>
-                  <div class="form-floating mb-4">
+                </div>
+                <div class="form-floating mb-4">
                     <textarea class="form-control"  id="formDesc" name="formDesc" oninput="updateFormPreview()" placeholder="Leave a comment here" style="height: 100px"></textarea>
-                    <label for="formDesc">Descripcion para el formulario</label>
-                  </div>
-                  <div class="form-floating mb-4">
-                    <select class="form-select" id="inputType">
-                      <option value="text">Texto</option>
-                      <option value="email">Email</option>
-                      <option value="tel">Teléfono</option>
-                      <option value="number">Número</option>
-                      <option value="date">Fecha</option>
-                    </select>
-                    <label for="inputType">Tipo de entrada</label>
-                  </div>
-                  
-                  <button class="btn btn-success w-100" onclick="addQuestion()">Agregar pregunta +</button>
-                  <div id="questionContainer" class="my-3"></div>
-
+                    <label for="formDesc">Descripción para el formulario</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input class="form-control" id="questionLabel" name="questionLabel" type="text" oninput="updateQuestionPreview()" placeholder="Escribe la pregunta">
+                    <label for="questionLabel">Label para la pregunta</label>
+                </div>
+                <div class="form-floating mb-4">
+                  <select class="form-select" id="questionType" name="questionType" onchange="updateQuestionPreview()">
+                    <option value="text">Texto libre</option>
+                    <option value="multipleChoice">Selección múltiple</option>
+                    <option value="textarea">Área de texto</option>
+                    <option value="date">Fecha</option>
+                </select>
+                
+                    <label for="questionType">Tipo de pregunta</label>
+                </div>
+                <button class="btn btn-success w-100" onclick="addQuestion()">Agregar pregunta +</button>
             </div>
 
             <div class="col">
                 <div class="container p-5 bg-light shadow-sm">
                     <h1 id="formTitlePreview"></h1>
                     <p id="formDescPreview" class="lead"></p>
-                    <div id="questionContainerPreview"></div>
-              </div>
+                    <hr>
+                    <div id="questionsPreview"></div>
+                </div>
             </div>
         </div>
-        </div>
-        <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
-</html>
+    </div>
+    <script>
+        var questions = [];
+
+        function updateFormPreview() {
+            // Obtener el valor del título y descripción del formulario
+            var title = document.getElementById("formTitle").value;
+            var desc = document.getElementById("formDesc").value;
+                    // Actualizar la vista previa del formulario
+        document.getElementById("formTitlePreview").innerHTML = title;
+        document.getElementById("formDescPreview").innerHTML = desc;
+    }
+
+
+    function addQuestion() {
+    // Obtener el valor del label y tipo de pregunta
+    var label = document.getElementById("questionLabel").value;
+    var type = document.getElementById("questionType").value;
+
+    // Crear un objeto para representar la pregunta
+    var question = {
+        label: label,
+        type: type
+    };
+
+    // Agregar la pregunta al array de preguntas
+    questions.push(question);
+
+    // Actualizar la vista previa de las preguntas
+    updateQuestionsPreview();
+}
+
+
+    function removeQuestion(index) {
+        // Eliminar la pregunta del array de preguntas
+        questions.splice(index, 1);
+
+        // Actualizar la vista previa de las preguntas
+        updateQuestionsPreview();
+    }
+
+    function updateQuestionsPreview() {
+    // Limpiar la vista previa de las preguntas
+    document.getElementById("questionsPreview").innerHTML = "";
+
+    // Recorrer el array de preguntas y crear la vista previa para cada una
+    for (var i = 0; i < questions.length; i++) {
+        var question = questions[i];
+        var questionPreview = document.createElement("div");
+
+        if (question.type === "text" || question.type === "textarea" || question.type === "date") {
+            var inputType = (question.type === "date") ? "date" : "text";
+            var inputElement = document.createElement("input");
+            inputElement.type = inputType;
+            inputElement.placeholder = question.label;
+            questionPreview.appendChild(inputElement);
+        } else if (question.type === "multipleChoice") {
+            questionPreview.innerHTML = "<h3>" + question.label + "</h3><p>Selección múltiple</p>";
+        }
+
+        questionPreview.innerHTML += "<button onclick=\"removeQuestion(" + i + ")\">Eliminar</button>";
+        document.getElementById("questionsPreview").appendChild(questionPreview);
+    }
+}
+
+</script>
